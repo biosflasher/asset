@@ -63,7 +63,7 @@ class AssetHelper extends Helper {
   var $View = null;
 
   function __construct($options, $paths=array()) {
-		$this->options = array_merge($this->options, $options);
+    $this->options = is_array($options)? array_merge($this->options, $options):$this->options;
     $this->paths = array_merge($this->paths, $paths);
 
     $this->View =& ClassRegistry::getObject('view');
@@ -97,7 +97,7 @@ class AssetHelper extends Helper {
 							$scripts_for_layout[] = $resource;
 						}
 					} else if($type == 'codeblock') {
-						if(!stristr($resource, '.js') && !stristr($resource,' .css')) {
+						if(!stristr($resource, '.js') && !stristr($resource,'.css')) {
 							$scripts_for_layout[] = $resource;
 						}
 					}
