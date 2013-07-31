@@ -14,6 +14,9 @@ App::import('Core', array('File', 'Folder', 'Sanitize'));
 
 class AssetHelper extends Helper {
 	var $options = array(
+		//Set enabled to false in order to disable asset packing even in production mode
+		'enabled' => true,
+
 		//Cake debug = 0  packed js/css returned.  $this->options['md5FileName']options['debug'] doesn't do anything.
 		//Cake debug > 0, $this->options['md5FileName']options['debug'] = false    essentially turns the helper off.  js/css not packed.  Good for debugging your js/css files.
 		//Cake debug > 0, $this->options['md5FileName']options['debug'] = true     packed js/css returned.  Good for debugging this helper.
@@ -87,7 +90,7 @@ class AssetHelper extends Helper {
 		
     //Allow breaking up of js,css,codeblock in your html when debug is > 0
     //Ex: putting 'css' in head and 'js','codeblock' at bottom before </body>
-		if (Configure::read('debug') && $this->options['debug'] == false) {
+		if ($this->options['enabled'] == false || (Configure::read('debug') && $this->options['debug'] == false)) {
 			$scripts_for_layout = array();
 			
 			foreach ($this->View->__scripts as $resource) {
@@ -144,7 +147,7 @@ class AssetHelper extends Helper {
                                array_slice($this->View->__scripts, $this->viewScriptCount),
                                array_slice($this->View->__scripts, 0, $this->viewScriptCount)
                              );
-		if (Configure::read('debug') && $this->options['debug'] == false) {
+		if ($this->options['enabled'] == false || (Configure::read('debug') && $this->options['debug'] == false)) {
 			return;
 		}
 		
